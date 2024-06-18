@@ -1,0 +1,10 @@
+{
+    "cSpell.ignoreWords": [
+        "fernet"
+    ],
+    "python.testing.pytestArgs": [
+        "test"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
