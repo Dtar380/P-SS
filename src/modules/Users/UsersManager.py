@@ -69,10 +69,26 @@ class UsersManager:
             for inst in self.users:
                 inst.selected = False
 
-            if self.checkPassword():
+            if self.checkPassword(user_id):
 
                 self.users[user_id].selected = True
                 self.saveUsers
+
+    def checkPassword(self, user_id) -> bool:
+        encrypted_password = self.users[user_id].password
+        input_password = input('Enter a password: ').encode()
+
+        key = base64.urlsafe_b64encode(
+            hashlib.md5(input_password).hexdigest().encode()
+        )
+
+        password = Fernet(key).decrypt(encrypted_password).decode()
+
+        if password == input_password:
+            return True
+        
+        else:
+            return False
 
     def getSelectedUser(self) -> list:
         for i in self.users:

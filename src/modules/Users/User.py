@@ -12,11 +12,21 @@
 #####  CODE                        #####
 ########################################
 
-#####  GLOBAL VARIABLES
-
-
 #####  CLASS
+class User:
 
+    def __init__(self, username, password, selected=None):
+        self.username = username # Gets the username argument of the User
+        self.password = password # Gets the uuid argument of the User
+        self.selected = selected # Gets the selected argument of the User
+
+    # Creates a dictionary with the parameters
+    def user_dict(self):
+        return {
+            'User': self.username,
+            'Password': self.password,
+            'Selected': self.selected
+        }
 
 #####  FUNCTIONS
 def main() -> None:
