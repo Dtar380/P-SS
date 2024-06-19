@@ -21,19 +21,24 @@ class UsersManager:
 
     def __init__(self, file: str) -> None:
         self.file = file
-        self.users = self.readUsers()
+        self.users = self.checkUsers()
         if not self.users: self.createUser(True)
 
-    def readUsers(self) -> list:
+    def checkUsers(self) -> "list[User]":
         if exists(self.file):
-            with open(self.file, 'r') as f:
-                data = loads(f.read())
-                f.close()
-            return [User(inst['User'], inst['Password'], inst['Selected']) for inst in data]
+            users = self.readUsers()
+            return users
 
         else:
-            raise Exception('Error. No users file detected')
+            raise Exception('Error. No users file detected.')
         
+    def readUsers(self) -> "list[User]":
+        with open(self.file, 'r') as f:
+            data: list = loads(f.read())
+            f.close()
+
+        return [User(inst['User'], inst['Password'], inst['Selected']) for inst in data]
+
     def createUser(self, selected: bool = None) -> None:
         username = input('Enter a username: ')
         input_password = input('Enter a password: ').encode()
@@ -44,27 +49,31 @@ class UsersManager:
 
         password = Fernet(key).encrypt(input_password).decode()
 
-        new_user = User(username, password, selected)
+        new_user: User = User(username, password, selected)
         self.users.append(new_user)
         self.saveUsers()
 
-    def deleteUser(self, user_id) -> None:
+    def deleteUser(self, user_id: int) -> None:
         if 0 <= user_id < len(self.users):
             if self.users[user_id].selected:
-                raise Exception('User is selected')
+                raise Exception('User is selected.')
             
             else:
                 del self.users[user_id] # Deletes the user
+
+        else:
+            raise Exception('User out of range')
                 
-        self.save_users() # Saves the users into the json
+        self.saveUsers() # Saves the users into the json
 
     def saveUsers(self) -> None:
-        data = [inst.userDict() for inst in self.users]
+        data = [inst.user_dict() for inst in self.users]
 
         with open(self.file, 'w') as f:
             dump(data, f, indent=4, separators=(',',':'))
+            f.close()
 
-    def selectUser(self, user_id) -> None:
+    def selectUser(self, user_id: int) -> None:
         if 0 <= user_id < len(self.users):
             for inst in self.users:
                 inst.selected = False
@@ -74,7 +83,7 @@ class UsersManager:
                 self.users[user_id].selected = True
                 self.saveUsers
 
-    def checkPassword(self, user_id) -> bool:
+    def checkPassword(self, user_id: int) -> bool:
         encrypted_password = self.users[user_id].password
         input_password = input('Enter a password: ').encode()
 
@@ -85,6 +94,7 @@ class UsersManager:
         password = Fernet(key).decrypt(encrypted_password).decode()
 
         if password == input_password:
+            self.users[user_id].key = key
             return True
         
         else:

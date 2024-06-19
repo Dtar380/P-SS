@@ -32,7 +32,7 @@ class SystemFunctions:
             raise Exception('\nSystem not compatible\n')
             exit()
 
-    def clear(self, time = 1):
+    def clear(self, time: float = 1):
         sleep(time)
         execute('cls' if self.os == 'Windows' else 'clear')
 
