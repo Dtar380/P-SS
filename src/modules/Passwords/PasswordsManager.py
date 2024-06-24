@@ -95,10 +95,6 @@ class PasswordManager:
         password = self.cipher.decrypt(encrypted_password.encode()).decode()
         return password
 
-#####  FUNCTIONS
-def main() -> None:
-    pass
-
 #####  RUN FILE
 if __name__ == "__main__":
-    main()
+    pass

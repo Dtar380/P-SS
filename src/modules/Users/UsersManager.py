@@ -11,6 +11,7 @@ from json import loads, dump
 
 #####  INTERNAL IMPORTS
 from modules.Users.User import User
+from modules.System.Colors import cPrint
 
 ########################################
 #####  CODE                        #####
@@ -18,6 +19,15 @@ from modules.Users.User import User
 
 #####  CLASS
 class UsersManager:
+
+    """
+    Manages all Users and actions related to them such as:\n
+     · Reading: Reads from the users file all users
+     · Creating: Creates a new user given a username and a password
+     · Deleting: Deletes the specified non-selected user
+     · Saving: Saves the usernames and passwords to an encrypted file
+     · Select: Selects the specified non-selected user
+    """
 
     def __init__(self, file: str) -> None:
         self.file = file
@@ -105,9 +115,7 @@ class UsersManager:
             if i.selected:
                 return [i.username, i.password]
 
-#####  FUNCTIONS
-def main() -> None:
-    pass
+UsersManager
 
 #####  RUN FILE
 if __name__ == "__main__":

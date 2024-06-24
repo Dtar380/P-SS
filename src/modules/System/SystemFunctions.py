@@ -19,6 +19,12 @@ from urllib import error, request
 #####  CLASS
 class SystemFunctions:
 
+    """
+    Class that contains functions system related, like:\n
+     · Check OS Compatibility: Checks if OS is compatible with list of OS
+     · Clear: Clears the console
+    """
+
     compatible_os = ['Windows', 'Darwin', 'Linux']
 
     def __init__(self) -> None:
@@ -36,10 +42,6 @@ class SystemFunctions:
         sleep(time)
         execute('cls' if self.os == 'Windows' else 'clear')
 
-#####  FUNCTIONS
-def main() -> None:
-    pass
-
 #####  RUN FILE
 if __name__ == "__main__":
-    main()
+    pass

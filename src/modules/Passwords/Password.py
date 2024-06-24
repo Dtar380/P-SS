@@ -30,10 +30,6 @@ class Password:
             'Password': self.password
         }
 
-#####  FUNCTIONS
-def main() -> None:
-    pass
-
 #####  RUN FILE
 if __name__ == "__main__":
-    main()
+    pass

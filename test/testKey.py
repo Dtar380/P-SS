@@ -1,16 +1,19 @@
+from cryptography.fernet import Fernet
 import base64, hashlib
-from cryptography.fernet import Fernet, InvalidToken
 
-keys = [Fernet.generate_key(), Fernet.generate_key()]
+input_password = input('Enter a password: ').encode()
 
-text = "Hola soy Dtar".encode()
+key = base64.urlsafe_b64encode(
+    hashlib.md5(input_password).hexdigest().encode()
+)
 
-ciphered_text = Fernet(keys[1]).encrypt(text)
+cipher = Fernet(key)
 
-for key in keys:
-    try:
-        deciphered_text = Fernet(key).decrypt(ciphered_text)
-    except InvalidToken:
-        print("Invalid Token")
-    else:
-        print(deciphered_text)
+encrypted_password = cipher.encrypt(input_password).decode()
+password = cipher.decrypt(encrypted_password).decode()
+
+print(f"""
+Input password {input_password}
+Encrypted password {encrypted_password}
+Password {password}
+""")
